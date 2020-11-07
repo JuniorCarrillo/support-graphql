@@ -1,5 +1,7 @@
 # SupportGraphQL v1
-Esta es una API GraphQL para el uso como Back End, el cual se encuentra desarrollado en Go y MongoDB Atlas en plataformas que requieran soporte de tickets, clientes y componentes electrónicos. Recomendado para tiendas de electrónicos que requieren soporte a clientes.
+Esta es una API GraphQL para el uso como Back End, el cual se encuentra desarrollado en Go y MongoDB Atlas en plataformas que requieran soporte de tickets, clientes y componentes electrónicos. Recomendado para tiendas de electrónicos que requieren soporte a clientes con implementación de CORS ajustable.
+
+Está plataforma corre sobre el puerto `:8080` el cual es modificable añadiendo la variable del entorno `port` al OS que lo ejecute o modificando el archivo `server.go` en la raíz del sistema, así como la modificación de uso en modo CORS actualmente predefinido.
 
 ### Estructura del sistema
 Aquí se muestra la organización y componentes de estruturales, arquitectura y organización especifica del repositorio.
@@ -467,7 +469,7 @@ Esté proyecto fue enteramente desarrollado por Junior Carrillo bajo licencia MI
 ---
 **NOTA**
 
-Toda la información aquí mostrada es complementada por la misma estructura de GraphQL, la cual es consultable al correr el sistema de manera local, para hacer uso de MongoDB en una instancia propia solo debe cambiar el contenido de la linea 24 del archivo `database.go` en el directorio `database` de la carpeta raíz, desde el punto línea 24:62 al 24:173 con la url de su instancia de base de datos. Ejemplo:
+Toda la información aquí mostrada es complementada por la misma estructura de GraphQL, la cual es consultable al correr el sistema de manera local, para hacer uso de MongoDB en una instancia propia solo debe cambiar el contenido de la linea 24 del archivo `database.go` en el directorio `database` de la carpeta raíz, desde el punto línea 24:62 al 24:173 con la url de su instancia de base de datos.
 
 **EJEMPLO DE CÓDIGO**
 ```
