@@ -1,0 +1,152 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+# Output
+type Login {
+  _id:    ID!
+  status: Boolean!
+  user:   User!
+}
+
+type User {
+  _id: ID!
+  name: String!
+  address: String!
+  phone: String!
+  email: String!
+  role: String!
+}
+
+type UserAuth {
+  _id: ID!
+  name: String!
+  address: String!
+  phone: String!
+  email: String!
+  role: String!
+  password: String!
+}
+
+type Tv {
+  _id: ID!
+  type: String!
+  model: String!
+  brand: String!
+  serial: String!
+  owner: String!
+  user: User!
+}
+
+type Tvs {
+  _id: ID!
+  type: String!
+  model: String!
+  brand: String!
+  serial: String!
+  owner: String!
+}
+
+type Ticket {
+  _id: ID!
+  title: String!
+  status: String!
+  equipment: String!
+  technical: String!
+  timestamp: String!
+  description: String!
+  tv: Tv!
+}
+
+type Tickets {
+  _id: ID!
+  title: String!
+  owner: String!
+  status: String!
+  technical: String!
+  equipment: String!
+  timestamp: String!
+  description: String!
+}
+
+type Message {
+  _id: ID!
+  author: String!
+  ticket: String!
+  content: String!
+  timestamp: String!
+}
+
+# Input
+input NewUser {
+  name: String!
+  address: String!
+  phone: String!
+  password: String!
+  email: String!
+  role: String!
+}
+
+input NewTv {
+  type: String!
+  model: String!
+  brand: String!
+  serial: String!
+  owner: String!
+}
+
+input NewTicket {
+  title: String!
+  owner: String!
+  status: String!
+  technical: String!
+  equipment: String!
+  description: String!
+  timestamp: String!
+}
+
+input AddTicket {
+  title: String!
+  owner: String!
+  equipment: String!
+  description: String!
+}
+
+input NewMessage {
+  author: String!
+  ticket: String!
+  content: String!
+  timestamp: String!
+}
+
+input AddMessage {
+  author: String!
+  ticket: String!
+  content: String!
+}
+
+# Querys
+type Query {
+  login(email: String!, password: String!): Login!
+  user(_id: String!): User!
+  users: [User!]!
+  usersBy(att: String!, val: String!): [User!]!
+  tv(_id: String!): Tv!
+  tvs: [Tvs!]!
+  tvsBy(att: String!, val: String!): [Tv!]!
+  ticket(_id: String!): Ticket!
+  tickets: [Tickets!]!
+  ticketsBy(att: String!, val: String!): [Tickets!]!
+  message(_id: String!): Message!
+  messages: [Message!]!
+  messagesBy(att: String!, val: String!): [Message!]!
+}
+
+# Mutations
+type Mutation {
+  createUser(input: NewUser!): User!
+  createTv(input: NewTv!): Tv!
+  createTicket(input: AddTicket!): Ticket!
+  createMessage(input: AddMessage!): Message!
+  updateTicket(_id: String!, att: String!, val: String!): Ticket!
+}
