@@ -5,7 +5,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/juniorcarrillo/SupportGraphQL/database"
 	"github.com/juniorcarrillo/SupportGraphQL/graph/generated"
@@ -14,75 +13,75 @@ import (
 )
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	return db.SaveUser(&input), nil
+	return user.Save(&input), nil
 }
 
 func (r *mutationResolver) CreateTv(ctx context.Context, input model.NewTv) (*model.Tv, error) {
-	return db.SaveTV(&input), nil
+	return tv.Save(&input), nil
 }
 
 func (r *mutationResolver) CreateTicket(ctx context.Context, input model.AddTicket) (*model.Ticket, error) {
-	return db.SaveTicket(&input), nil
+	return ticket.Save(&input), nil
 }
 
 func (r *mutationResolver) CreateMessage(ctx context.Context, input model.AddMessage) (*model.Message, error) {
-	return db.SaveMessage(&input), nil
+	return message.Save(&input), nil
 }
 
 func (r *mutationResolver) UpdateTicket(ctx context.Context, id string, att string, val string) (*model.Ticket, error) {
-	return db.UpdateTicket(id, att, val), nil
+	return ticket.Update(id, att, val), nil
 }
 
 func (r *queryResolver) Login(ctx context.Context, email string, password string) (*model.Login, error) {
-	return db.Login(email, password), nil
+	return user.Login(email, password), nil
 }
 
 func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
-	return db.FindUserByID(id), nil
+	return user.FindByID(id), nil
 }
 
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	return db.AllUsers(), nil
+	return user.All(), nil
 }
 
 func (r *queryResolver) UsersBy(ctx context.Context, att string, val string) ([]*model.User, error) {
-	return db.FindUserBy(att, val), nil
+	return user.FindBy(att, val), nil
 }
 
 func (r *queryResolver) Tv(ctx context.Context, id string) (*model.Tv, error) {
-	return db.FindTvByID(id), nil
+	return tv.FindByID(id), nil
 }
 
 func (r *queryResolver) Tvs(ctx context.Context) ([]*model.Tvs, error) {
-	return db.AllTvs(), nil
+	return tv.All(), nil
 }
 
 func (r *queryResolver) TvsBy(ctx context.Context, att string, val string) ([]*model.Tv, error) {
-	return db.FindTvsBy(att, val), nil
+	return tv.FindBy(att, val), nil
 }
 
 func (r *queryResolver) Ticket(ctx context.Context, id string) (*model.Ticket, error) {
-	return db.FindTicketByID(id), nil
+	return ticket.FindByID(id), nil
 }
 
 func (r *queryResolver) Tickets(ctx context.Context) ([]*model.Tickets, error) {
-	return db.AllTickets(), nil
+	return ticket.All(), nil
 }
 
 func (r *queryResolver) TicketsBy(ctx context.Context, att string, val string) ([]*model.Tickets, error) {
-	return db.FindTicketsBy(att, val), nil
+	return ticket.FindBy(att, val), nil
 }
 
 func (r *queryResolver) Message(ctx context.Context, id string) (*model.Message, error) {
-	return db.FindMessageByID(id), nil
+	return message.FindByID(id), nil
 }
 
 func (r *queryResolver) Messages(ctx context.Context) ([]*model.Message, error) {
-	return db.AllMessages(), nil
+	return message.All(), nil
 }
 
 func (r *queryResolver) MessagesBy(ctx context.Context, att string, val string) ([]*model.Message, error) {
-	return db.FindMessagesBy(att, val), nil
+	return message.FindBy(att, val), nil
 }
 
 // Mutation returns generated.MutationResolver implementation.
@@ -100,8 +99,7 @@ type queryResolver struct{ *Resolver }
 //  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
 //    it when you're done.
 //  - You have helper methods in this file. Move them out to keep these resolver files clean.
-func (r *queryResolver) UpdateTicket(ctx context.Context, id string, att string, val string) (*model.Ticket, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
-var db = database.Connect()
+var message = database.Message()
+var ticket = database.Ticket()
+var user = database.User()
+var tv = database.Tv()

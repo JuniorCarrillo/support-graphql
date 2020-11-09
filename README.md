@@ -1,3 +1,5 @@
+El siguiente es un instructivo adicional al que ya presenta en sí la plataforma GraphQL de manera predeterminada en la interface primaria de ejecución, la cual contiene documentación especifica y detallada de ejecución, y en cuyo caso se debe poder por parte de quien emplemente el sistema en caso de ser necesario.
+
 # SupportGraphQL v1
 Esta es una API GraphQL para el uso como Back End, el cual se encuentra desarrollado en Go y MongoDB Atlas en plataformas que requieran soporte de tickets, clientes y componentes electrónicos. Recomendado para tiendas de electrónicos que requieren soporte a clientes con implementación de CORS ajustable.
 
@@ -9,11 +11,14 @@ Aquí se muestra la organización y componentes de estruturales, arquitectura y 
 #### Archivos del repositorio
 Dentro de este repositorio se encuentran un total de 10 archivos y 4 directorios. Los cuales se muestran en el siguiente mapa estructural:
 ```
+.
 |-- README.md
 |-- database
-|   `-- database.go
+|   |-- message.go
+|   |-- ticket.go
+|   |-- tv.go
+|   `-- user.go
 |-- go.mod
-|-- gqlgen.yml
 |-- graph
 |   |-- generated
 |   |   `-- generated.go
@@ -23,7 +28,6 @@ Dentro de este repositorio se encuentran un total de 10 archivos y 4 directorios
 |   |-- schema.graphqls
 |   `-- schema.resolvers.go
 `-- server.go
-
 ```
 
 #### Librerías del sistema
@@ -48,6 +52,7 @@ Dentro de la información se implementa el siguiente esquema de peticiones y mut
 type Login {
   _id:    ID!
   status: Boolean!
+  message: String!
   user:   User!
 }
 
@@ -455,6 +460,82 @@ query Auth {
     }
   }
 }
+```
+
+**RESPUESTA EN CASO DE ERROR**
+
+Cuando la contraseña o el correo no son válidos, o no esta registrado en el sistema
+```
+{
+  "data": {
+    "login": {
+      "_id": "N/A",
+      "status": false,
+      "message": "La contraseña o el correo electrónico no se encuentran asociados a ningún usuario o están errados",
+      "user": {
+        "email": "N/A",
+        "address": "N/A",
+        "role": "N/A"
+      }
+    }
+  }
+}
+```
+**RESPUESTA EN CASO DE ÉXITO**
+
+Cuando el usuario y la contraseña coinciden y están registrados en el sistema.
+```
+{
+  "data": {
+    "login": {
+      "_id": "5fa583653f3a3896431173cc",
+      "status": true,
+      "message": "Bienvenido Junior Carrillo",
+      "user": {
+        "email": "soyjrcarrillo@gmail.com",
+        "address": "Medellin",
+        "role": "user"
+      }
+    }
+  }
+}
+```
+
+## Organización de la base de datos
+En este proyecto se utiliza MongoDB Atlas como ejemplo practico, de la manera en la que es implementado solo funciona de forma educativa, si requiere un despliegue en producción es necesario optimizar la seguridad guardando la `MONGODB_URI` como una variable de entorno en el sistema.
+
+#### Arquitectura de datos
+```
+|-- messages (Colección)
+|   |-- _id: Identificación de item
+|   |-- author: _id del autor del mensaje (String)
+|   |-- ticket: _id del ticket padre del mensaje (String)
+|   |-- content: contenido del mensaje (String)
+|   |-- timestamp: Timestamp en formato Unix (String)
+|-- tickets (Colección)
+|   |-- _id: Identificación de item
+|   |-- title: Título del ticket (String)
+|   |-- owner: _id del dueño del ticket (String)
+|   |-- status: nombre del estatus del ticket (String)
+|   |-- technical: _id del usuario tecnico encargado (String)
+|   |-- equipment: _id del televisor (String)
+|   |-- description: Descripción del ticket (String)
+|   |-- timestamp: Timestamp en formato Unix (String)
+|-- tvs (Colección)
+|   |-- _id: Identificación de item
+|   |-- type: Tipo de televisor cargado (String)
+|   |-- model: Modelo del televisor (String)
+|   |-- brand: Marca del televisor (String)
+|   |-- serial: Serial del televisor (String)
+|   |-- owner: _id del usuario dueño del televisor (String)
+|-- users (Colección)
+|   |-- _id: Identificación de item
+|   |-- name: Nombre del usuario (String)
+|   |-- address: Dirección del usuario (String)
+|   |-- phone: Nro. de teléfono del usuario (String)
+|   |-- password: Contraseña del usuario (String [Bajo codificación de autenticación en Go])
+|   |-- email: Correo electrónico del usuario (String)
+|   |-- role: Rol del usuario (String)
 ```
 
 ### Más información
