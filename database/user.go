@@ -5,37 +5,13 @@ import (
 	"github.com/juniorcarrillo/SupportGraphQL/graph/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	_ "go.mongodb.org/mongo-driver/mongo/readpref"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
-// Estructura
-type UserDB struct {
-	client *mongo.Client
-}
-
-// Instancia
-func User() *UserDB {
-
-	// La URI de MongoDB se recomienda guardar como variable de entorno
-	// se deje esta como ejemplo y para testeo. Pero por seguridad se recomienda
-	// no colocar de esta forma por medida de seguridad en producción.
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://SoyJrCarrillo:CEjp249@cluster0.nkkan.gcp.mongodb.net/SupportGraphQL?retryWrites=true&w=majority"))
-	if err != nil {
-		panic(err)
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	err = client.Connect(ctx)
-	return &UserDB{client: client}
-
-}
-
 // Login
-func (db* UserDB) Login(email, password string) *model.Login {
+func (db *DB) LoginUser(email, password string) *model.Login {
 
 	// Instancias de notificaciones
 	var message = ""
@@ -61,10 +37,10 @@ func (db* UserDB) Login(email, password string) *model.Login {
 	// Retorno
 	if status {
 		return &model.Login{
-			ID: 	user.ID,
-			Status: status,
+			ID:      user.ID,
+			Status:  status,
 			Message: message,
-			User:	&model.User{
+			User: &model.User{
 				ID:      user.ID,
 				Name:    user.Name,
 				Address: user.Address,
@@ -75,10 +51,10 @@ func (db* UserDB) Login(email, password string) *model.Login {
 		}
 	} else {
 		return &model.Login{
-			ID: 		"N/A",
-			Status: 	status,
-			Message: 	message,
-			User:		&model.User{
+			ID:      "N/A",
+			Status:  status,
+			Message: message,
+			User: &model.User{
 				ID:      "N/A",
 				Name:    "N/A",
 				Address: "N/A",
@@ -91,7 +67,7 @@ func (db* UserDB) Login(email, password string) *model.Login {
 }
 
 // Crear un usuario
-func (db* UserDB) Save(input *model.NewUser) *model.User {
+func (db *DB) SaveUser(input *model.NewUser) *model.User {
 
 	// Instancia de guardado
 	collection := db.client.Database("SupportGraphQL").Collection("users")
@@ -119,17 +95,17 @@ func (db* UserDB) Save(input *model.NewUser) *model.User {
 
 	// Retorno
 	return &model.User{
-		ID: res.InsertedID.(primitive.ObjectID).Hex(),
-		Name: input.Name,
+		ID:      res.InsertedID.(primitive.ObjectID).Hex(),
+		Name:    input.Name,
 		Address: input.Address,
-		Phone: input.Phone,
-		Email: input.Email,
-		Role: input.Role,
+		Phone:   input.Phone,
+		Email:   input.Email,
+		Role:    input.Role,
 	}
 }
 
 // Buscar un usuario
-func (db *UserDB) FindByID(ID string) *model.User {
+func (db *DB) FindByIDUser(ID string) *model.User {
 
 	// Codificar _id en la petición
 	UserID, err := primitive.ObjectIDFromHex(ID)
@@ -150,7 +126,7 @@ func (db *UserDB) FindByID(ID string) *model.User {
 }
 
 // Buscar un usuario por
-func (db *UserDB) FindBy(ATT, VAL string) []*model.User {
+func (db *DB) FindByUser(ATT, VAL string) []*model.User {
 
 	// Instancia de búsqueda
 	collection := db.client.Database("SupportGraphQL").Collection("users")
@@ -177,7 +153,7 @@ func (db *UserDB) FindBy(ATT, VAL string) []*model.User {
 }
 
 // Listar todos los usuarios
-func (db *UserDB) All() []*model.User {
+func (db *DB) AllUser() []*model.User {
 
 	// Instancia de búsqueda
 	collection := db.client.Database("SupportGraphQL").Collection("users")

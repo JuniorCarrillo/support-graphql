@@ -5,36 +5,11 @@ import (
 	"github.com/juniorcarrillo/SupportGraphQL/graph/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	_ "go.mongodb.org/mongo-driver/mongo/readpref"
 	"time"
 )
 
-// Estructura
-type TvDB struct {
-	client *mongo.Client
-}
-
-// Instancia
-func Tv() *TvDB {
-
-	// La URI de MongoDB se recomienda guardar como variable de entorno
-	// se deje esta como ejemplo y para testeo. Pero por seguridad se recomienda
-	// no colocar de esta forma por medida de seguridad en producción.
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://SoyJrCarrillo:CEjp249@cluster0.nkkan.gcp.mongodb.net/SupportGraphQL?retryWrites=true&w=majority"))
-	if err != nil {
-		panic(err)
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	err = client.Connect(ctx)
-	return &TvDB{client: client}
-
-}
-
-// Crear un TV
-func (db* TvDB) Save(input *model.NewTv) *model.Tv {
+func (db *DB) SaveTv(input *model.NewTv) *model.Tv {
 
 	// Codificar _id en la petición
 	UserID, err := primitive.ObjectIDFromHex(input.Owner)
@@ -61,18 +36,18 @@ func (db* TvDB) Save(input *model.NewTv) *model.Tv {
 
 	// Retorno
 	return &model.Tv{
-		ID: resTv.InsertedID.(primitive.ObjectID).Hex(),
-		Type: input.Type,
-		Model: input.Model,
-		Brand: input.Brand,
+		ID:     resTv.InsertedID.(primitive.ObjectID).Hex(),
+		Type:   input.Type,
+		Model:  input.Model,
+		Brand:  input.Brand,
 		Serial: input.Serial,
-		Owner: input.Owner,
-		User: &user,
+		Owner:  input.Owner,
+		User:   &user,
 	}
 }
 
 // Buscar un tv por _id
-func (db *TvDB) FindByID(ID string) *model.Tv {
+func (db *DB) FindByIDTv(ID string) *model.Tv {
 
 	// Codificar _id en la petición
 	TvID, err := primitive.ObjectIDFromHex(ID)
@@ -115,7 +90,7 @@ func (db *TvDB) FindByID(ID string) *model.Tv {
 }
 
 // Buscar tvs por usuario
-func (db *TvDB) FindBy(ATT, VAL string) []*model.Tv {
+func (db *DB) FindByTv(ATT, VAL string) []*model.Tv {
 
 	// Instancia de búsqueda
 	collection := db.client.Database("SupportGraphQL").Collection("tvs")
@@ -142,7 +117,7 @@ func (db *TvDB) FindBy(ATT, VAL string) []*model.Tv {
 }
 
 // Listar los tvs
-func (db *TvDB) All() []*model.Tvs {
+func (db *DB) AllTv() []*model.Tvs {
 
 	// Instancia de búsqueda
 	collection := db.client.Database("SupportGraphQL").Collection("tvs")

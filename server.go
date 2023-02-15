@@ -5,6 +5,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/joho/godotenv"
 	"github.com/juniorcarrillo/SupportGraphQL/graph"
 	"github.com/juniorcarrillo/SupportGraphQL/graph/generated"
 	"github.com/rs/cors"
@@ -16,6 +17,10 @@ import (
 const defaultPort = "8080"
 
 func main() {
+	if err := godotenv.Load(".env"); err != nil {
+		log.Fatal(err)
+	}
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort

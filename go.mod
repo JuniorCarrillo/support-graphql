@@ -5,6 +5,7 @@ go 1.15
 require (
 	github.com/99designs/gqlgen v0.13.0
 	github.com/go-chi/chi v4.1.2+incompatible
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rs/cors v1.7.0
 	github.com/vektah/gqlparser v1.3.1 // indirect
