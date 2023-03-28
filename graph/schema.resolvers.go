@@ -6,9 +6,9 @@ package graph
 import (
 	"context"
 
-	"github.com/juniorcarrillo/SupportGraphQL/database"
-	"github.com/juniorcarrillo/SupportGraphQL/graph/generated"
-	"github.com/juniorcarrillo/SupportGraphQL/graph/model"
+	"github.com/juniorcarrillo/support-graphql/database"
+	"github.com/juniorcarrillo/support-graphql/graph/generated"
+	"github.com/juniorcarrillo/support-graphql/graph/model"
 	_ "go.mongodb.org/mongo-driver/mongo"
 )
 

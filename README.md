@@ -1,15 +1,31 @@
-El siguiente es un instructivo adicional al que ya presenta en sí la plataforma GraphQL de manera predeterminada en la interface primaria de ejecución, la cual contiene documentación especifica y detallada de ejecución, y en cuyo caso se debe poder por parte de quien emplemente el sistema en caso de ser necesario.
-
 # SupportGraphQL v1
+
+[![Go](https://github.com/JuniorCarrillo/simple-crud-api/workflows/Go/badge.svg)](https://github.com/JuniorCarrillo/simple-crud-api/actions?query=workflow:"Go")
+[![GitHub tag](https://img.shields.io/github/tag/JuniorCarrillo/simple-crud-api?include_prereleases=&sort=semver&color=blue)](https://github.com/JuniorCarrillo/simple-crud-api/releases/)
+[![Sourcegraph](https://sourcegraph.com/github.com/JuniorCarrillo/simple-crud-api/-/badge.svg?style=flat-square)](https://sourcegraph.com/github.com/JuniorCarrillo/simple-crud-api?badge)
+[![Go Report Card](https://goreportcard.com/badge/github.com/JuniorCarrillo/simple-crud-api?style=flat-square)](https://goreportcard.com/report/github.com/JuniorCarrillo/simple-crud-api)
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/JuniorCarrillo/simple-crud-api/master/LICENSE)
+[![JuniorCarrillo - simple-crud-api](https://img.shields.io/static/v1?label=JuniorCarrillo&message=simple-crud-api&color=blue&logo=github)](https://github.com/JuniorCarrillo/simple-crud-api "Go to GitHub repo")
+[![stars - simple-crud-api](https://img.shields.io/github/stars/JuniorCarrillo/simple-crud-api?style=social)](https://github.com/JuniorCarrillo/simple-crud-api)
+[![forks - simple-crud-api](https://img.shields.io/github/forks/JuniorCarrillo/simple-crud-api?style=social)](https://github.com/JuniorCarrillo/simple-crud-api)
+[![OS - macOS](https://img.shields.io/badge/OS-macOS-blue?logo=apple&logoColor=white)](https://www.apple.com/macos/ "Go to Apple homepage")
+[![OS - Linux](https://img.shields.io/badge/OS-Linux-blue?logo=linux&logoColor=white)](https://www.linux.org/ "Go to Linux homepage")
+[![Made with Docker](https://img.shields.io/badge/Made_with-Docker-blue?logo=docker&logoColor=white)](https://www.docker.com/ "Go to Docker homepage")
+[![Made with Go](https://img.shields.io/badge/Go-1-blue?logo=go&logoColor=white)](https://golang.org "Go to Go homepage")
+[![Made with MongoDB](https://img.shields.io/badge/MongoDB-3-blue?logo=mongodb&logoColor=white)](https://www.mongodb.com/ "Go to MongoDB homepage")
+
 Esta es una API GraphQL para el uso como Back End, el cual se encuentra desarrollado en Go y MongoDB Atlas en plataformas que requieran soporte de tickets, clientes y componentes electrónicos. Recomendado para tiendas de electrónicos que requieren soporte a clientes con implementación de CORS ajustable.
 
 Está plataforma corre sobre el puerto `:8080` el cual es modificable añadiendo la variable del entorno `port` al OS que lo ejecute o modificando el archivo `server.go` en la raíz del sistema, así como la modificación de uso en modo CORS actualmente predefinido.
 
 ### Estructura del sistema
-Aquí se muestra la organización y componentes de estruturales, arquitectura y organización especifica del repositorio.
+
+Aquí se muestra la organización y componentes de estructurales, arquitectura y organización especifica del repositorio.
 
 #### Archivos del repositorio
+
 Dentro de este repositorio se encuentran un total de 10 archivos y 4 directorios. Los cuales se muestran en el siguiente mapa estructural:
+
 ```
 .
 |-- README.md
@@ -31,7 +47,9 @@ Dentro de este repositorio se encuentran un total de 10 archivos y 4 directorios
 ```
 
 #### Librerías del sistema
-Está plaforma fué desarrollada en `go 1.15` con una configuración `modules`, haciendo uso de los siguientes componentes o librerías:
+
+Está plataforma fué desarrollada en `go 1.15` con una configuración `modules`, haciendo uso de los siguientes componentes o librerías:
+
 ```
 require (
 	github.com/99designs/gqlgen v0.13.0
@@ -46,7 +64,9 @@ require (
 ```
 
 #### Schema de la API GraphQL
+
 Dentro de la información se implementa el siguiente esquema de peticiones y mutaciones:
+
 ```
 # Output
 type Login {
@@ -200,17 +220,19 @@ type Mutation {
 ```
 
 ## Interacciones disponibles
+
 Las interacciones realizadas en el sistema se pueden realizar por medio de Postman o desde la interface home de la API, en este caso todas las interacciones se realizan directamente desde el home de la API, con la intención de que sea más flexible y requiera menos herramientas su funcionamiento. El funcionamiento de este sistema posee las siguientes interacciones disponibles:
 
 ### Mutations o mutaciones
+
 Para la carga o guardado y, actualización de información dentro del sistema en la plataforma:
 
 ##### Carga o guardado de información
+
 En estas mutaciones se encuentran las interacciones que ejecutan la creación de los elementos en la plataforma.
 
 ---
 **NOTA**
-
 Dentro de la creación del usuario la contraseña se encripta y se guarda de esa manera en la base de datos, luego de eso para realizar la autenticación se debe compara mediante un sistema de autenticación simple de usuario y correo electrónico.
 
 ---
@@ -292,10 +314,13 @@ mutation AddMessage {
 }
 ```
 ##### Actualizar
+
 Dentro del sistema solo se puede actualizar la información de los tickets, para lo cual se requiere enviar:
+
 - `_id`: Identificador del ticket, este se utiliza como identificación y puede ser usado para extraer toda la información relacionada con este ticket.
 - `att`: Atributo del campo que se requiere cambiar.
 - `val`: Valor del atributo que se desea cambiar o actualizar.
+
 ```
 mutation Update {
   updateTicket(
@@ -310,10 +335,13 @@ mutation Update {
 ```
 
 ### Querys o peticiones
+
 En este punto se muestran las peticiones que se pueden realizar al sistema:
 
 ##### Peticiones únicas
+
 Las peticiones únicas son las que se ejecutan directamente y solo esperan un resultado especifico, por ejemplo: solicitud de un usuario, ticket, televisor o mensaje.
+
 ```
 query User {
   user(_id: "5fa57bb09e60d49b64cc60fe") {
@@ -363,8 +391,11 @@ query Message {
   }
 }
 ```
+
 ##### Peticiones multiples
+
 Estas son peticiones que al ser ejecutadas, reciben dos o más elementos.
+
 ```
 query AllUsers {
   users {
@@ -446,8 +477,11 @@ query MessagesBy {
   }
 }
 ```
+
 ### Autenticación de usuarios
+
 Para el proceso de autenticación se debe realizar un query solicitando la información, para ello se envía `email` y `password`, en lo que se espera recibir un estatus de si el logueo es efectivo, la identificación del usuario, y su información general para el uso de restricciones en el Front End para diferentes roles. La estructura enviada debe ser similar a está:
+
 ```
 query Auth {
   login(email: "soyjrcarrillo@gmail.com", password: "12345") {
@@ -463,8 +497,8 @@ query Auth {
 ```
 
 **RESPUESTA EN CASO DE ERROR**
-
 Cuando la contraseña o el correo no son válidos, o no esta registrado en el sistema
+
 ```
 {
   "data": {
@@ -481,9 +515,10 @@ Cuando la contraseña o el correo no son válidos, o no esta registrado en el si
   }
 }
 ```
-**RESPUESTA EN CASO DE ÉXITO**
 
+**RESPUESTA EN CASO DE ÉXITO**
 Cuando el usuario y la contraseña coinciden y están registrados en el sistema.
+
 ```
 {
   "data": {
@@ -502,9 +537,11 @@ Cuando el usuario y la contraseña coinciden y están registrados en el sistema.
 ```
 
 ## Organización de la base de datos
+
 En este proyecto se utiliza MongoDB Atlas como ejemplo practico, de la manera en la que es implementado solo funciona de forma educativa, si requiere un despliegue en producción es necesario optimizar la seguridad guardando la `MONGODB_URI` como una variable de entorno en el sistema.
 
 #### Arquitectura de datos
+
 ```
 |-- messages (Colección)
 |   |-- _id: Identificación de item
@@ -539,7 +576,9 @@ En este proyecto se utiliza MongoDB Atlas como ejemplo practico, de la manera en
 ```
 
 ### Más información
+
 Esté proyecto fue enteramente desarrollado por Junior Carrillo bajo licencia MIT, es un aporte a la comunidad de Golang Venezuela. Puedes solicitar más información desde:
+
 - +57 300 3328389
 - soyjrcarrillo@gmail.com
 - [Telegram](https://t.me/imjrcarrillo)

@@ -2,7 +2,7 @@ package database
 
 import (
 	"context"
-	"github.com/juniorcarrillo/SupportGraphQL/graph/model"
+	"github.com/juniorcarrillo/support-graphql/graph/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	_ "go.mongodb.org/mongo-driver/mongo/readpref"

@@ -1,4 +1,4 @@
-module github.com/juniorcarrillo/SupportGraphQL
+module github.com/juniorcarrillo/support-graphql
 
 go 1.15
 
