@@ -3,7 +3,7 @@ version: '3.3'
 services:
   db:
     image: mongo:4.4
-    container_name: simple-crud-api_db
+    container_name: support-graphql_db
     networks:
       - support-graphql_network
     environment:
